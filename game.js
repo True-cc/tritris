@@ -471,11 +471,7 @@ class Game {
         let scoreDim;
 
         if (!this.practice) {
-            let formattedScore = this.score.toString();
-            for (let i = formattedScore.length-3; i > 0; i -= 3) {
-                formattedScore = formattedScore.slice(0, i) + " " + formattedScore.slice(i);
-            } //Put a space every 3 characters (from the end)
-            const scoreTxt = `Score ${formattedScore}`;
+            const scoreTxt = `Score ${this.score}`;
             const linesTxt = `Lines  ${this.lines}`;
             const levelTxt = `Level  ${this.level}`;
             const textW = max(
@@ -561,5 +557,24 @@ class Game {
         }
 
         if (!flashing) this.redraw = false;
+    }
+}
+
+function setNext() {
+    let v = select('#piece').value()
+    console.log(v)
+    game.nextPiece = new Piece(game.piecesJSON[v]);
+    game.redraw = true;
+}
+
+
+function setCurrent() {
+    let v = select('#piece').value()
+    console.log(v)
+    game.currentPiece = new Piece(game.piecesJSON[v]);
+    game.redraw = true;
+    if (v == 0) {
+        game.nextSingles = 2;
+        game.nextPiece = new Piece(game.piecesJSON[0]);
     }
 }
