@@ -27,6 +27,7 @@ if (localStorage.hasOwnProperty('showKeys')) {
 }
 
 let piecesJSON;
+/** @type {Game} */
 let game;
 let gameState = gameStates.LOADING;
 

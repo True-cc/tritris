@@ -113,10 +113,20 @@ class Grid {
         }
         return newGrid;
     }
+
+    /**
+     * @return {GridCell}
+     */
+    getCellFromMousePos(mouseX, mouseY, x, y, w, h) {
+        let gY = (mouseX - x)/w*this.w;
+        let gX = (mouseY - y)/h*this.h;
+        return this.grid[parseInt(gX)][parseInt(gY)];
+    }
 }
 
 class GridCell {
     constructor(triangles, clr) {
+        this.customShape = -1;
         if (triangles == undefined) {
             this.tris = [
                 [null, null],
@@ -140,11 +150,13 @@ class GridCell {
     removeRightTri() {
         this.tris[0][1] = null;
         this.tris[1][1] = null;
+        this.customShape = -1;
     }
 
     removeLeftTri() {
         this.tris[0][0] = null;
         this.tris[1][0] = null;
+        this.customShape = -1;
     }
 
     isFull() {
@@ -177,6 +189,7 @@ class GridCell {
                     this.tris[row][col] = cell.tris[row][col];
             }
         }
+        this.customShape = -1;
     }
 
     collides(other) {
@@ -195,10 +208,74 @@ class GridCell {
     }
 
     show(x, y, w, h, colors) {
+        // if (this.selected) {
+        //     fill(color(100, 100, 255));
+        //     rect(x, y, w, h)
+        // }
         for (let row = 0; row < this.tris.length; row++) {
             for (let col = 0; col < this.tris[0].length; col++) {
                 if (this.tris[row][col])
                     this.tris[row][col].show(x, y, w, h, row, col, colors);
+            }
+        }
+    }
+
+    nextCustomShape() {
+        this.customShape++;
+        if (this.customShape >= 6) this.customShape = 0;
+        this.setCustomShape();
+    }
+
+    prevCustomShape() {
+        if (this.customShape == -1) this.customShape = 5;
+        this.customShape--;
+        if (this.customShape <= -1) this.customShape = 5;
+        this.setCustomShape();
+    }
+
+    setCustomShape() { // shit lazy arse shit but idc it works
+        switch (this.customShape) {
+            case 0: {
+                this.tris = [
+                    [null, null],
+                    [null, new Triangle(6)],
+                ];
+                break;
+            }
+            case 1: {
+                this.tris = [
+                    [null, null],
+                    [new Triangle(6), null],
+                ];
+                break;
+            }
+            case 2: {
+                this.tris = [
+                    [new Triangle(6), null],
+                    [null, null],
+                ];
+                break;
+            }
+            case 3: {
+                this.tris = [
+                    [null, new Triangle(6)],
+                    [null, null],
+                ];
+                break;
+            }
+            case 4: {
+                this.tris = [
+                    [null, new Triangle(6)],
+                    [new Triangle(6), null],
+                ];
+                break;
+            }
+            case 5: {
+                this.tris = [
+                    [null, null],
+                    [null, null],
+                ];
+                break;
             }
         }
     }
@@ -244,5 +321,37 @@ class Triangle {
      */
     copy() {
         return new Triangle(this.clr);
+    }
+}
+
+
+/////////////// PROBABLY SHOULDN'T PUT THIS HERE \\\\\\\\\\\\\\\
+
+addEventListener('click', onclick)
+
+/**
+ * lol I never use JS xD
+ * @param {MouseEvent} event 
+ */
+function onclick(event) {
+    let gameWidth = min(width / 2, height / 2) - 2 * padding;
+    let gameHeight = gameWidth * (game.h / game.w);
+    if (gameHeight > height) {
+        gameHeight = height - 2 * padding;
+        gameWidth = gameHeight * (game.w / game.h);
+    }
+    const gameX = width / 2 - gameWidth / 2;
+    const gameY = height / 2 - gameHeight / 2;
+    if (event.clientX >= gameX && event.clientX <= gameX + gameWidth &&
+        event.clientY >= gameY && event.clientY <= gameY + gameHeight) {
+        if (gameState == 2) {
+            let cell = game.grid.getCellFromMousePos(event.clientX, event.clientY, gameX, gameY, gameWidth, gameHeight);
+            console.log(cell, event.shiftKey)
+            if (cell != null) {
+                if (event.shiftKey) cell.prevCustomShape();
+                else cell.nextCustomShape();
+            }
+            game.redraw = true;
+        }
     }
 }
