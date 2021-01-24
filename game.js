@@ -578,3 +578,16 @@ function setCurrent() {
         game.nextPiece = new Piece(game.piecesJSON[0]);
     }
 }
+
+let maps = [];
+
+function saveMap() {
+    let v = select('#map').value()
+    maps[v] = game.grid.copy()
+}
+
+function loadMap() {
+    let v = select('#map').value()
+    game.grid = maps[v].copy();
+    game.redraw = true;
+}

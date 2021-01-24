@@ -53,10 +53,14 @@
                 <input type="checkbox" id="sound" />
                 <br />
                 <label>Piece Number</label>
-                <input type="number" id="piece" value="0" min="0" max="6"/>
-                <br />
+                <input type="number" id="piece" value="0" min="0" max="6" style="width:40px"/>
                 <button onclick="setNext()">Set Next</button>
                 <button onclick="setCurrent()">Set Current</button>
+                <br />
+                <label>Map Number</label>
+                <input type="number" id="map" value="0" min="0" max="6" style="width:40px"/>
+                <button onclick="saveMap()">Save Map</button>
+                <button onclick="loadMap()">Load Map</button>
             </p>
         </div>
 

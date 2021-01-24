@@ -2,6 +2,7 @@ class Grid {
     constructor(width, height) {
         this.w = width;
         this.h = height;
+        /** @type {GridCell[][]]} */
         this.grid = [];
         for (let i = 0; i < this.h; i++) {
             this.grid.push([]);
