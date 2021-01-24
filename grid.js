@@ -100,6 +100,19 @@ class Grid {
                 line(x, y + j * cellH, x + w, y + j * cellH);
         }
     }
+
+    /**
+     * @return {Grid}
+     */
+    copy() {
+        let newGrid = new Grid(this.w, this.h);
+        for (let i = 0; i < this.h; i++) {
+            for (let j = 0; j < this.w; j++) {
+                newGrid.grid[i][j] = this.grid[i][j].copy();
+            }
+        }
+        return newGrid;
+    }
 }
 
 class GridCell {
@@ -189,6 +202,21 @@ class GridCell {
             }
         }
     }
+
+    /**
+     * @return {GridCell}
+     */
+    copy() {
+        let gridCell = new GridCell(undefined, 0);
+        for (let row = 0; row < this.tris.length; row++) {
+            for (let col = 0; col < this.tris[0].length; col++) {
+                let tris = this.tris[row][col];
+                if (tris == null) continue;
+                gridCell.tris[row][col] = tris.copy();
+            }
+        }
+        return gridCell;
+    }
 }
 
 class Triangle {
@@ -209,5 +237,12 @@ class Triangle {
         } else if (row == 1 && col == 1) {
             triangle(x, y + h, x + w, y, x + w, y + h);
         }
+    }
+
+    /**
+     * @return {Triangle}
+     */
+    copy() {
+        return new Triangle(this.clr);
     }
 }
