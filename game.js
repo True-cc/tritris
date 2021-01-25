@@ -601,3 +601,23 @@ function loadMap() {
     game.grid = maps[v].copy();
     game.redraw = true;
 }
+
+function exportMap() {
+    let v = document.getElementById('export')
+    v.value = game.grid.export()
+}
+
+function importMap() {
+    let v = document.getElementById('export')
+    try {
+        let g = importNewGrid(v.value);
+        if (isNaN(g.w) || isNaN(g.h) || g.grid == []) {
+            v.value = "Invalid map."
+            return;
+        }
+        game.grid = g;
+        game.redraw = true;
+    } catch (e) {
+        v.value = "Invalid map."
+    }
+}

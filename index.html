@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link rel="icon" type="image/png" href="favicon.png" />
         <meta charset="utf-8" />
-        <title>Tritris</title>
+        <title>Tritris Fork</title>
     </head>
     <body>
         <script src="sketch.js"></script>
@@ -16,12 +16,12 @@
         <script src="game.js"></script>
 
         <div id="title" class="box">
-            <h1>Tritris</h1>
+            <h1>Tritris Fork</h1>
             <p style="font-size: 12pt">
-                Welcome to Tritris!
+                Welcome to True-cc's Tritris fork!
                 <br />
                 Use the pieces to fill as many lines as possible before the game
-                gets too fast and you top out!
+                gets too fast and you top out! This is a fork of the original one.
                 <br />
                 <br />
                 Click <button id="openTutorial" class="darkButton">How to Play</button> for strategies.
@@ -29,18 +29,8 @@
                 Click <button id="openSettings" class="darkButton">Settings</button> to change controls.
                 <br />
                 <br />
-                <a href="https://discord.gg/NUKWP6UCHF" style="color: black">
-                    <b>Join the Discord!</b>
-                    <img height="30" src="assets/discordLogo.png" />
-                </a>
-                <br />
-                <a href="https://youtu.be/HMkfj1OJ08Q" style="color: black">
-                    <b>Watch the video!</b>
-                    <img height="25" src="assets/youtubeLogo.png" />
-                </a>
-                <br />
-                <a href="https://github.com/Goel25/tritris" style="color: black">
-                    <b>Contribute!</b>
+                <a href="https://github.com/True-cc/tritris" style="color: black">
+                    <b>This fork!</b>
                     <img height="25" src="assets/githubLogo.png" />
                 </a>
                 <br />
@@ -61,6 +51,10 @@
                 <input type="number" id="map" value="0" min="0" max="6" style="width:40px"/>
                 <button onclick="saveMap()">Save Map</button>
                 <button onclick="loadMap()">Load Map</button>
+                <br />
+                <button onclick="exportMap()">Export Map</button>
+                <button onclick="importMap()">Import Map</button>
+                <input type="text" id="export" value="" style="width:200px"/>
             </p>
         </div>
 

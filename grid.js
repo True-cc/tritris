@@ -123,17 +123,45 @@ class Grid {
         let gX = (mouseY - y)/h*this.h;
         return this.grid[parseInt(gX)][parseInt(gY)];
     }
+
+    /**
+     * @return {String}
+     */
+    export() {
+        var s = this.w + ":" + this.h + ":";
+        for (let v of this.grid) {
+            for (let g of v) {
+                s += g.export();
+            }
+        }
+        return s;
+    }
+}
+
+/**
+ * 
+ * @param {String} str 
+ */
+function importNewGrid(str) {
+    let split = str.split(':');
+    let grid = new Grid(parseInt(split[0]), parseInt(split[1]));
+    for (let i in split[2]) {
+        grid.grid[parseInt(i/4.0/grid.w)][parseInt(i/4.0%grid.w)].setTriFromS(split[2][i], parseInt(i%4))
+    }
+    return grid
 }
 
 class GridCell {
     constructor(triangles, clr) {
         this.customShape = -1;
         if (triangles == undefined) {
+            /** @type {Triangle[][]} */
             this.tris = [
                 [null, null],
                 [null, null],
             ];
         } else {
+            /** @type {Triangle[][]} */
             this.tris = [];
             for (let row = 0; row < 2; row++) {
                 this.tris.push([]);
@@ -295,6 +323,28 @@ class GridCell {
         }
         return gridCell;
     }
+
+    /**
+     * @return {String}
+     */
+    export() {
+        return this.getSFromTri(0, 0) + this.getSFromTri(0, 1) + this.getSFromTri(1, 0) + this.getSFromTri(1, 1);
+    }
+
+    /**
+     * @return {String}
+     */
+    getSFromTri(x, y) {
+        let a = this.tris[x][y];
+        if (a == null) return "-";
+        return String(a.clr);
+    }
+
+    setTriFromS(s, i) {
+        let x = parseInt(i / 2);
+        let y = parseInt(i % 2);
+        this.tris[x][y] = isNaN(s) ? null : new Triangle(parseInt(s));
+    }
 }
 
 class Triangle {
@@ -347,7 +397,6 @@ function onclick(event) {
         event.clientY >= gameY && event.clientY <= gameY + gameHeight) {
         if (gameState == 2) {
             let cell = game.grid.getCellFromMousePos(event.clientX, event.clientY, gameX, gameY, gameWidth, gameHeight);
-            console.log(cell, event.shiftKey)
             if (cell != null) {
                 if (event.shiftKey) cell.prevCustomShape();
                 else cell.nextCustomShape();
