@@ -13,6 +13,7 @@
         <script src="sound.js"></script>
         <script src="grid.js"></script>
         <script src="piece.js"></script>
+        <script src="history.js"></script>
         <script src="game.js"></script>
 
         <div id="title" class="box">
@@ -41,6 +42,7 @@
                 <br />
                 <label>Sound</label>
                 <input type="checkbox" id="sound" />
+                <button onclick="restoreHist()">Undo</button>
                 <br />
                 <label>Piece Number</label>
                 <input type="number" id="piece" value="0" min="0" max="6" style="width:40px"/>

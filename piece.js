@@ -1,5 +1,6 @@
 class Piece {
     constructor(json) {
+        this.json = json;
         this.grid = [];
         const pieces = json.pieces;
         const clr = json.color;
@@ -103,5 +104,13 @@ class Piece {
                 );
             }
         }
+    }
+
+    /**
+     * Creates a copy of this piece.
+     * @return {Piece}
+     */
+    copy() {
+        return new Piece(this.json);
     }
 }

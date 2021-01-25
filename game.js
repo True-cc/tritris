@@ -47,6 +47,7 @@ class Game {
         this.nextPiece = null; //The next piece starts as a random piece that isn't a single triangles
         this.nextPieceIndex = null;
         this.nextSingles = 0;
+        /** @type {number[]} */
         this.bag = [];
         this.spawnPiece(); //Sets the next piece
         this.spawnPiece(); //Make next piece current, and pick new next
@@ -110,6 +111,9 @@ class Game {
         this.playFallSound = false;
         this.playMoveSound = false;
         this.playTritrisSound = false;
+        game = this;
+        resetHist();
+        saveHist();
     }
 
     update() {
@@ -192,6 +196,8 @@ class Game {
             if (!this.isValid(this.currentPiece)) {
                 this.alive = false; //If the new piece is already blocked, game over
             }
+            saveHist();
+            console.log("OwOed")
         }
 
         if (this.currentPiece !== null) {
