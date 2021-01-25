@@ -666,6 +666,7 @@ function importMap() {
             overrideMode = parseInt(split[3][0]);
             overrideNum = -1;
             let bag = split[3].substring(1);
+            overrideBag = []
             for (let n of bag) {
                 overrideBag.push(parseInt(n));
             }
