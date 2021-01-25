@@ -1,7 +1,10 @@
+gameWidth = 8
+gameHeight = 16
+
 class Game {
     constructor(piecesJSON, level, practice) {
-        this.w = 8;
-        this.h = 16;
+        this.w = gameWidth;
+        this.h = gameHeight;
         this.grid = new Grid(this.w, this.h);
 
         this.alive = true;
@@ -654,6 +657,10 @@ function importMap() {
             v.value = "Invalid map."
             return;
         }
+        gameWidth = g.w;
+        gameHeight = g.h;
+        game.w = g.w;
+        game.h = g.h;
         game.grid = g;
         game.redraw = true;
         let split = String(v.value).split(":");
