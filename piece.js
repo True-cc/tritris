@@ -10,7 +10,7 @@ class Piece {
                 this.grid[row].push(new GridCell(pieces[row][col], clr));
             }
         }
-        this.pos = createVector(Math.ceil((8 - this.grid[0].length) / 2), 0);
+        this.pos = createVector(Math.ceil((game.w - this.grid[0].length) / 2), 0);
         this.rotation = 0;
         this.rotations = json.rotationOffset || [[0, 0]]; //How the position should change when rotated. If not specified, the pos can stay the same (for pieces with square dimensions)
     }

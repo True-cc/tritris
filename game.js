@@ -5,6 +5,7 @@ class Game {
     constructor(piecesJSON, level, practice) {
         this.w = gameWidth;
         this.h = gameHeight;
+        game = this;
         this.grid = new Grid(this.w, this.h);
 
         this.alive = true;
@@ -117,7 +118,6 @@ class Game {
         this.playFallSound = false;
         this.playMoveSound = false;
         this.playTritrisSound = false;
-        game = this;
         resetHist();
         saveHist();
     }
@@ -203,7 +203,6 @@ class Game {
                 this.alive = false; //If the new piece is already blocked, game over
             }
             saveHist();
-            console.log("OwOed")
         }
 
         if (this.currentPiece !== null) {
@@ -325,7 +324,6 @@ class Game {
             this.nextPieceIndex = 0; //This will make it spawn 3 single triangles in a row
             this.nextSingles--;
         } else {
-            console.log(this.nextPieceIndex, overrideMode)
             switch (overrideMode) {
                 case 0: { // one at a time
                     overrideNum++;
@@ -608,7 +606,6 @@ class Game {
 
 function setNext() {
     let v = select('#piece').value()
-    console.log(v)
     game.nextPiece = new Piece(game.piecesJSON[v]);
     game.redraw = true;
 }
@@ -616,12 +613,13 @@ function setNext() {
 
 function setCurrent() {
     let v = select('#piece').value()
-    console.log(v)
     game.currentPiece = new Piece(game.piecesJSON[v]);
     game.redraw = true;
     if (v == 0) {
         game.nextSingles = 2;
         game.nextPiece = new Piece(game.piecesJSON[0]);
+    } else {
+        game.nextSingles = 0;
     }
 }
 
@@ -669,7 +667,6 @@ function importMap() {
             overrideNum = -1;
             let bag = split[3].substring(1);
             for (let n of bag) {
-                console.log(n);
                 overrideBag.push(parseInt(n));
             }
         } else {
