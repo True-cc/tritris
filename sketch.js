@@ -25,6 +25,10 @@ let showKeys = false;
 if (localStorage.hasOwnProperty('showKeys')) {
     showKeys = JSON.parse(localStorage.getItem('showKeys'));
 }
+let showStats = false;
+if (localStorage.hasOwnProperty('showStats')) {
+    showStats = JSON.parse(localStorage.getItem('showStats'));
+}
 
 let piecesJSON;
 /** @type {Game} */
@@ -191,6 +195,16 @@ function setup() {
             showGame(gameState == gameStates.PAUSED);
         }
     });
+    dom.showStats = select('#showStats');
+    dom.showStats.checked(showStats);
+    dom.showStats.changed(() => {
+        showStats = dom.showStats.checked();
+        localStorage.setItem('showStats', showStats);
+        if (game) {
+            game.redraw = true;
+            showGame(gameState == gameStates.PAUSED);
+        }
+    });
 
     resizeDOM();
     showGame(true);
@@ -245,7 +259,7 @@ function showGame(paused) {
     }
     const gameX = width / 2 - gameWidth / 2;
     const gameY = height / 2 - gameHeight / 2;
-    game.show(gameX, gameY, gameWidth, gameHeight, paused, showGridLines);
+    game.show(gameX, gameY, gameWidth, gameHeight, paused, showGridLines, showStats);
     if (playSound)
         game.playSounds(clearSound, fallSound, moveSound, tritrisSound);
 
