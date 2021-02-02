@@ -699,6 +699,20 @@ overrideNum = -1; // For #0
 
 function importMap() {
     let v = document.getElementById('export')
+    if (v.value.length == 0) {
+        overrideMode = -1;
+        overrideNum = -1;
+        gameOptions.AutoSetMap = false;
+        gameOptions.PlacePieces = true;
+        g = new Grid(8, 16);
+        gameWidth = g.w;
+        gameHeight = g.h;
+        game.w = g.w;
+        game.h = g.h;
+        game.grid = g;
+        game.redraw = true;
+        return;
+    }
     try {
         let g = importNewGrid(v.value);
         if (isNaN(g.w) || isNaN(g.h) || g.grid == []) {
@@ -721,16 +735,17 @@ function importMap() {
                 overrideBag.push(parseInt(n));
             }
             if (split.length > 4) {
-                if (split[4].length >= 1) {
-                    gameOptions.AutoSetMap = split[4][0] > 0;
-                    if (split[4].length >= 2) {
-                        gameOptions.PlacePieces = split[4][1] > 0;
-                    }
-                }
+                gameOptions.AutoSetMap = split[4].length >= 1 && split[4][0] > 0;
+                gameOptions.PlacePieces = split[4].length < 2 || split[4][1] > 0;
+            } else {
+                gameOptions.AutoSetMap = false;
+                gameOptions.PlacePieces = true;
             }
         } else {
             overrideMode = -1;
             overrideNum = -1;
+            gameOptions.AutoSetMap = false;
+            gameOptions.PlacePieces = true;
         }
     } catch (e) {
         v.value = "Invalid map."
