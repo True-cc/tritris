@@ -1,5 +1,9 @@
 gameWidth = 8
 gameHeight = 16
+gameOptions = {
+    AutoSetMap: false,
+    PlacePieces: true
+}
 
 class Game {
     constructor(piecesJSON, level, practice) {
@@ -123,6 +127,10 @@ class Game {
         this.playTritrisSound = false;
         resetHist();
         saveHist();
+
+        if (gameOptions.AutoSetMap) {
+            importMap();
+        }
     }
 
     update() {
@@ -291,14 +299,15 @@ class Game {
     }
 
     placePiece() {
-        this.grid.addPiece(this.currentPiece);
-        const row = this.currentPiece.getBottomRow();
+        if (gameOptions.PlacePieces) {
+            this.grid.addPiece(this.currentPiece);
 
-        //Only clear lines if the next piece is not a triangle, or the next piece is a triangle, but it is a new triplet
-        if (this.nextPieceIndex != 0 || this.nextSingles == 2) {
-            this.clearLines(); //Clear any complete lines
+            //Only clear lines if the next piece is not a triangle, or the next piece is a triangle, but it is a new triplet
+            if (this.nextPieceIndex != 0 || this.nextSingles == 2) {
+                this.clearLines(); //Clear any complete lines
+            }
         }
-
+        const row = this.currentPiece.getBottomRow();
         const entryDelay = this.calcEntryDelay(row);
         this.spawnNextPiece = Date.now() + entryDelay;
 
@@ -710,6 +719,14 @@ function importMap() {
             overrideBag = []
             for (let n of bag) {
                 overrideBag.push(parseInt(n));
+            }
+            if (split.length > 4) {
+                if (split[4].length >= 1) {
+                    gameOptions.AutoSetMap = split[4][0] > 0;
+                    if (split[4].length >= 2) {
+                        gameOptions.PlacePieces = split[4][1] > 0;
+                    }
+                }
             }
         } else {
             overrideMode = -1;
