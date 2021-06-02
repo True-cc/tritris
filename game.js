@@ -129,7 +129,7 @@ class Game {
         saveHist();
 
         if (gameOptions.AutoSetMap) {
-            importMap();
+            importMap(true);
         }
     }
 
@@ -697,7 +697,7 @@ overrideBag = [];
 overrideMode = -1;
 overrideNum = -1; // For #0
 
-function importMap() {
+function importMap(mapOnly) {
     let v = document.getElementById('export')
     if (v.value.length == 0) {
         overrideMode = -1;
@@ -725,6 +725,7 @@ function importMap() {
         game.h = g.h;
         game.grid = g;
         game.redraw = true;
+        if (mapOnly) return;
         let split = String(v.value).split(":");
         if (split.length > 3) {
             overrideMode = parseInt(split[3][0]);
